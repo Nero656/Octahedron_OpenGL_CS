@@ -42,8 +42,6 @@ public class OctahedronShader
         GL.DeleteShader(shader);
     }
 
-
-
     private int CreateShader(ShaderType shaderType, string shaderStr)
     {
         int shaderId = GL.CreateShader(shaderType);

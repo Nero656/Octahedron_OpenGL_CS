@@ -49,30 +49,27 @@ public class Sphere
                     indices[index++] = (i + 1) * (slices + 1) + j + 1;
                 }
             }
-
-            GL.GenVertexArrays(1, out _vao);
-            GL.BindVertexArray(_vao);
-
+            
             GL.GenBuffers(1, out _vertexBuffer);
             GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBuffer);
-            GL.BufferData(BufferTarget.ArrayBuffer, sizeof(float) * vertices.Length * 3, vertices, BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ArrayBuffer, sizeof(float)
+                                                    * vertices.Length * 3, vertices, BufferUsageHint.StaticDraw);
             GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 0, 0);
             GL.EnableVertexAttribArray(0);
 
             GL.GenBuffers(1, out _indexBuffer);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, _indexBuffer);
-            GL.BufferData(BufferTarget.ElementArrayBuffer, sizeof(int) * indices.Length, indices, BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ElementArrayBuffer, sizeof(int)
+                                                           * indices.Length, indices, BufferUsageHint.StaticDraw);
 
             _vertexCount = indices.Length;
         }
     
         public void Draw()
         {
-            GL.Enable(EnableCap.Blend);
-            GL.BindVertexArray(_vao);
-            GL.Color4(.0f, 0f, .5f, 1);
+            // GL.Enable(EnableCap.Blend);
             GL.DrawElements(BeginMode.Triangles, _vertexCount, DrawElementsType.UnsignedInt, 0);
-            GL.Disable(EnableCap.Blend);
+            // GL.Disable(EnableCap.Blend);
         }
         
         public void Dispose()

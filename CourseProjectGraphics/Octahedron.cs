@@ -1,4 +1,3 @@
-using System.Drawing;
 using OpenTK.Mathematics;
 using OpenTK.Graphics.OpenGL;
 
@@ -14,14 +13,15 @@ public class Octahedron
 
     public Octahedron()
     {
-        float a = 1.0f;
+        float a = 0.5f;
+        float b = 0.15f;
         
          vertices = new Vector3[] {
             new Vector3(0, a, 0),
-            new Vector3(a, 0, 0),
-            new Vector3(0, 0, a),
-            new Vector3(-a, 0, 0),
-            new Vector3(0, 0, -a),
+            new Vector3(b, 0, 0),
+            new Vector3(0, 0, b),
+            new Vector3(-b, 0, 0),
+            new Vector3(0, 0, -b),
             new Vector3(0, -a, 0),
         };
         
@@ -37,23 +37,30 @@ public class Octahedron
             new int[] { 5, 1, 4 },
         };
 
+        float transparency = 0.5f;
+        
         faceColors = new Color4[] {
-            Color4.Red,
-            Color4.Orange,
-            Color4.Blue,
-            Color4.Gold,
-            Color4.Lime,
-            Color4.Purple,
-            Color4.Cyan,
-            Color4.Magenta,
+            new Color4(1.0f, 0.0f, 0.0f, transparency), // Red
+            new Color4(1.0f, 0.5f, 0.0f, transparency), // Orange
+            new Color4(0.0f, 0.0f, 1.0f, transparency), // Blue
+            new Color4(0.0f, 1.0f, 1.0f, transparency), // Cyan
+            new Color4(0.0f, 1.0f, 0.0f, transparency), // Lime
+            new Color4(0.5f, 0.0f, 0.5f, transparency), // Purple
+            new Color4(0.5f, 0.0f, 1.0f, transparency), // Magenta
+            new Color4(1.0f, 0.843f, 0.0f, transparency), // Gold
         };
     }
 
     public void Draw()
     {
-        GL.Begin(PrimitiveType.Triangles);
+        GL.Enable(EnableCap.Blend);
+        GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+        
+        GL.Begin(BeginMode.Triangles);
+        
         for (int i = 0; i < indices.Length; i++)
         {
+            GL.Color4(new Color4(1.0f, 1.0f, 1.0f, 0.0f));
             GL.Color4(faceColors[i]);
             foreach (int vertexIndex in indices[i])
             {
@@ -61,5 +68,6 @@ public class Octahedron
             }
         }
         GL.End();
+        GL.Disable(EnableCap.Blend);
     }
 }
